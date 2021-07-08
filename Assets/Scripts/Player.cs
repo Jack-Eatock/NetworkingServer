@@ -6,8 +6,8 @@ public class Player : MonoBehaviour {
 
     public int id;
     public string username;
-    public float moveSpeed = 5f ; 
-    public float jumpspeed = 5f ; 
+    public float moveSpeed = 5f;
+    public float jumpspeed = 5f;
 
     private bool[] inputs;
     private float yVelocity = 0;
@@ -15,13 +15,16 @@ public class Player : MonoBehaviour {
     public CharacterController controller;
     public float gravity = -9.91f;
 
+    public Vector2 _inputDirection;
+    public Vector3 _moveDirection;
+
     private void Start() {
         gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
         moveSpeed *= Time.fixedDeltaTime;
         jumpspeed *= Time.fixedDeltaTime;
     }
 
-    public void Initialize(int _id, string _username ) {
+    public void Initialize(int _id, string _username) {
         id = _id;
         username = _username;
 
@@ -30,7 +33,7 @@ public class Player : MonoBehaviour {
 
     public void FixedUpdate() {
 
-        Vector2 _inputDirection = Vector2.zero;
+        _inputDirection = Vector2.zero;
         if (inputs[0]) {
             _inputDirection.y += 1;
         }
@@ -44,13 +47,14 @@ public class Player : MonoBehaviour {
             _inputDirection.x -= 1;
         }
 
+
         Move(_inputDirection);
     }
 
     private void Move(Vector2 _inputDirection) {
 
 
-        Vector3 _moveDirection = -transform.right * _inputDirection.x + transform.forward * _inputDirection.y;
+        _moveDirection = -transform.right * _inputDirection.x + transform.forward * _inputDirection.y;
         _moveDirection *= moveSpeed;
 
         if (controller.isGrounded) {
@@ -65,7 +69,7 @@ public class Player : MonoBehaviour {
         _moveDirection.y = yVelocity;
         controller.Move(_moveDirection);
 
-        
+
 
         ServerSend.PlayerPosition(this);
         ServerSend.PlayerRotation(this);
