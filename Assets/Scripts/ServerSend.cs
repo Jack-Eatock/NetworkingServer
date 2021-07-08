@@ -74,7 +74,7 @@ public class ServerSend {
         using (Packet _packet = new Packet((int)ServerPackets.playerPosition)) {
 
             _packet.Write(_player.id);
-            _packet.Write(_player.transform.position);
+            _packet.Write(_player.Car.transform.position);
           
             SendUDPDataToAll(_packet);
         };
@@ -84,9 +84,9 @@ public class ServerSend {
         using (Packet _packet = new Packet((int)ServerPackets.playerRotation)) {
 
             _packet.Write(_player.id);
-            _packet.Write(_player.transform.rotation);
+            _packet.Write(_player.Car.transform.rotation);
 
-            SendUDPDataToAll(_player.id, _packet);
+            SendUDPDataToAll( _packet);
         };
     }
 
